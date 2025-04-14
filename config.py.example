@@ -1,0 +1,4 @@
+BOT_TOKEN = "telegram bot token"
+WEATHER = "weather token"
+DUCK = "duck token"
+PASSW = "password"
