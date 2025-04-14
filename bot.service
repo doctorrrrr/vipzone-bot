@@ -1,0 +1,15 @@
+[Unit]
+Description=Telegram Bot
+After=network.target
+
+[Service]
+ExecStart=/opt/vipzone/bots/bot/bot.sh
+WorkingDirectory=/opt/vipzone/bots/bot
+Restart=always
+RestartSec=5
+User=root
+StandardOutput=append:/var/log/bot.log
+StandardError=append:/var/log/bot.log
+
+[Install]
+WantedBy=multi-user.target
