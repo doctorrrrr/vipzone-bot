@@ -12,30 +12,30 @@
 └── .env # (опціонально) конфіг для змінних середовища
 
 🚀 Запуск
+# VIPZone Telegram Bot
+
+Простий Telegram-бот, розміщений на локальному сервері. Працює без контейнерів, з мінімумом ресурсів. Обробка заявок / системна автоматизація.
+
+## 📂 Структура
+
+/opt/vipzone/bots/bot/ ├── bot.py # Основний код бота ├── bot.sh # Стартовий скрипт ├── config.py # Конфігураційний файл (виключений з гіта) ├── requirements.txt # Залежності └── .git/ # Репозиторій
+
+
+## 🧾 Запуск
 
 ```bash
 ./bot.sh
+
 або через systemd:
+
 systemctl start bot.service
 systemctl enable bot.service
 
-## ⚙️ Налаштування
-
-Всі налаштування в config.py. Там вказані токени, ID, параметри тощо.
-
-    УВАГА: config.py не комітиться в репозиторій! Замість нього — config.py.example.
-
-## 🐍 Встановлення залежностей
-
-pip install -r requirements.txt
-
-## 🧠 Автозапуск
-
-У systemd:
+/etc/systemd/system/bot.service:
 
 [Unit]
 Description=Bot
-After=network.target
+After=default.target
 
 [Service]
 ExecStart=/opt/vipzone/bots/bot/bot.sh
@@ -43,24 +43,37 @@ Restart=always
 User=root
 
 [Install]
-WantedBy=multi-user.target
+WantedBy=default.target
+
+⚙️ Конфігурація
+
+Налаштування зберігаються в config.py, який не додається в гіт. Містить токени, ID, логіку маршрутизації повідомлень тощо.
+
+    Для прикладу: config.example.py
 
 🧰 Автодеплой (планується)
 
-    через GitHub Actions → SSH → git pull + systemctl restart
+📥 Встановлення залежностей
 
-    або через webhook + puller.sh
+pip3 install -r requirements.txt
+
+🚀 Автодеплой (у процесі)
 
 📦 Бекапи (плануються)
+    GitHub Actions через SSH → git pull + systemctl restart
 
-    Архів коду + дамп БД (якщо треба)
+    Альтернатива: локальний puller.sh по webhook
 
-    Логи у /var/log/backups.log
+🔐 Безпека
 
+    Жодних паролів чи токенів у репозиторії.
 
+    Конфіг config.py локальний, додається в .gitignore.
 
-💡 Цей бот є частиною інфраструктури vipzone.net.ua
+💾 Бекап (планується)
 
+    dump + rsync/архів
 
-Хочеш, я його одразу підлаштую під твій конкретний бот і структуру, якщо кинеш мені `config.py` або скажеш, що там у тебе за функціонал?
+    лог у /var/log/backups.log
 
+👨‍🔧 Проєкт є частиною персональної інфраструктури на vipzone.net.ua
